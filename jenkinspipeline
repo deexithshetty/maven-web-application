@@ -1,23 +1,32 @@
 node{
 
-def mavenHome = tool name: "maven3.8.6"
-properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+def mavenHome = tool name: "maven3.8.7"
+echo "Jenkins URL : ${env.JENKINS_URL}"
+echo "Job name : ${env.JOB_NAME}"
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
 
 stage('CheckoutCode'){
-git branch: 'development', credentialsId: 'GitHub Credentials', url: 'https://github.com/deexithshetty/maven-web-application.git'
+git branch: 'development', credentialsId: '6b657c87-8a9d-4a37-b1d1-73b1903b232d', url: 'https://github.com/deexithshetty/maven-web-application.git'
 }
+
 stage('Build'){
 sh "${mavenHome}/bin/mvn clean package"
 }
-stage('ExecuteSonarQuberepor'){
+
+stage('SonarQube Report'){
 sh "${mavenHome}/bin/mvn clean sonar:sonar"
 }
-stage('UploadArtifactstoArticatoryRepo'){
+
+stage('UploadArtifact'){
 sh "${mavenHome}/bin/mvn clean deploy"
 }
-stage('DeploytoTocatserver'){
-sshagent(['75f6f989-2b9b-4f68-b8fd-b9df34053171']) {
-sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.34.16:/opt/apache-tomcat-9.0.65/webapps/"
+
+stage('DeploytoTomcat'){
+sshagent(['b2b1e9af-2758-4fbd-975f-2f2d197123bf']) {
+ sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.45.196:/opt/apache-tomcat-9.0.71/webapps/"
 }
 }
+
+
+
 }
