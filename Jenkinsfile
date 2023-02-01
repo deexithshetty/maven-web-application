@@ -1,82 +1,34 @@
+Pipeline
+--------
 node{
 
-def mavenHome = tool name: "maven3.8.6"
+def mavenHome = tool name: "maven3.8.7"
+echo "Jenkins URL : ${env.JENKINS_URL}"
+echo "Job name : ${env.JOB_NAME}"
 
-echo "Jenkins url is: ${env.JENKINS_URL}"
-echo "Node Name is: ${env.NODE_NAME}"
-echo "Job name is: ${env.JOB_NAME}"
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
 
-
-
-
-properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
-
-
-try{
-
-slackNotifications('STARTED')
-
-stage('CheckOutCode'){
-git branch: 'development', credentialsId: '166c70a2-1df5-4993-a566-0a795862da8c', url: 'https://github.com/MithunTechnologiesDevOps/maven-web-application.git'
+stage('CheckoutCode'){
+git branch: 'development', credentialsId: '6b657c87-8a9d-4a37-b1d1-73b1903b232d', url: 'https://github.com/deexithshetty/maven-web-application.git'
 }
 
 stage('Build'){
 sh "${mavenHome}/bin/mvn clean package"
 }
 
-/*
-stage('ExecuteSonarQubeReport'){
+stage('SonarQube Report'){
 sh "${mavenHome}/bin/mvn clean sonar:sonar"
 }
 
-stage('UploadArtifcatsIntoArtifactoryRepo'){
-sh "${mavenHome}/bin/mvn clean deploy2"
+stage('UploadArtifact'){
+sh "${mavenHome}/bin/mvn clean deploy"
 }
 
-stage('DeployAppIntoTomcatServer'){
-sshagent(['dc292b7a-3b39-4630-9fc3-1b806b54412c']) {
- sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war  ec2-user@172.31.7.80:/opt/apache-tomcat-9.0.65/webapps/"
+stage('DeploytoTomcat'){
+sshagent(['b2b1e9af-2758-4fbd-975f-2f2d197123bf']) {
+sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.45.196:/opt/apache-tomcat-9.0.71/webapps/"
 }
-}
-*/
-
-}//try block closing
-catch (e){
-slackNotifications('FAILED')
-throw e
-}
-finally{
-slackNotifications(currentBuild.result)
 }
 
 
-}//Node closing
-
-//Code Snippet for sending slack notifications.
-
-def slackNotifications(String buildStatus = 'STARTED') {
-  // build status of null means successful
-  //buildStatus =  buildStatus ?: 'SUCCESS'
-  buildStatus = buildStatus ? "SUCCESS":"FAILURE"
-
-  // Default values
-  def colorName = 'RED'
-  def colorCode = '#FF0000'
-  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-  def summary = "${subject} (${env.BUILD_URL})"
-
-  // Override default values based on build status
-  if (buildStatus == 'STARTED') {
-    colorName = 'YELLOW'
-    colorCode = '#FFFF00'
-  } else if (buildStatus == 'SUCCESS') {
-    colorName = 'GREEN'
-    colorCode = '#00FF00'
-  } else {
-    colorName = 'RED'
-    colorCode = '#FF0000'
-  }
-
-  // Send notifications
-  slackSend (color: colorCode, message: summary, channel: "#walmart")
 }
