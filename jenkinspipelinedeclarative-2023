@@ -1,0 +1,58 @@
+pipeline{
+
+agent any  //master
+
+tools{
+maven 'maven3.8.7'
+}
+
+options {
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')
+}
+
+
+triggers {
+  pollSCM '* * * * *'
+}
+
+
+stages{
+
+stage('checkout code'){
+steps{
+git branch: 'development', credentialsId: '6b657c87-8a9d-4a37-b1d1-73b1903b232d', url: 'https://github.com/deexithshetty/maven-web-application.git'
+}
+}
+
+stage('Build'){
+steps{
+sh "mvn clean package"
+}
+}
+
+stage('SonarQube'){
+steps{
+sh "mvn clean sonar:sonar"
+}
+}
+
+stage('UploadArtifact'){
+steps{
+sh "mvn clean deploy"
+}
+}
+
+stage('UploadtoTomactServer'){
+steps{
+sshagent(['b2b1e9af-2758-4fbd-975f-2f2d197123bf']) {
+sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.45.196:/opt/apache-tomcat-9.0.71/webapps/"
+}
+}
+}
+
+
+
+
+} //stages closing
+} //pipeline closing
+
