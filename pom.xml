@@ -98,14 +98,14 @@
 	
 	    <repository>
 	      <id>nexus</id>
-	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://13.233.247.162:8081/repository/walmart-release/</url>
+	      <name>Deexith Releases Nexus Repository</name>
+	      <url>http://13.233.125.128:8081/repository/myapp-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
-	      <name>Mithun Technologies Snapshot Nexus Repository </name>
-	      <url>http://172.31.36.75:8081/repository/walmart-snapshot/</url>
+	      <name>Deexith Snapshot Nexus Repository </name>
+	      <url>http://13.233.125.128:8081/repository/myapp-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
