@@ -21,7 +21,7 @@
 		<spring.version>5.1.2.RELEASE</spring.version>
 		<junit.version>4.11</junit.version>
 		<log4j.version>1.2.17</log4j.version>
-		<sonar.host.url>http://13.201.8.181:9000/</sonar.host.url>
+		<sonar.host.url>http://172.31.33.167:9000/</sonar.host.url>
                 <sonar.login>squ_428aaf1213056c6d08efec4a9ca24b128f2c715b</sonar.login>
 		
              
@@ -99,13 +99,13 @@
 	    <repository>
 	      <id>nexus</id>
 	      <name>Deexith Releases Nexus Repository</name>
-	      <url>http://13.233.125.128:8081/repository/myapp-release/</url>
+	      <url>http://172.31.33.32:8081/repository/myapp-release/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Deexith Snapshot Nexus Repository </name>
-	      <url>http://13.233.125.128:8081/repository/myapp-snapshot/</url>
+	      <url>http://172.31.33.32:8081/repository/myapp-snapshot/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
