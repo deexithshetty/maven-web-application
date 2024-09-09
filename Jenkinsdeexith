@@ -1,0 +1,53 @@
+pipeline{
+
+agent any
+
+tools {
+  maven 'maven3.9.8'
+}
+
+options {
+  timestamps()
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
+}
+
+triggers {
+  githubPush()
+}
+
+stages{
+
+stage('Checkoutcode'){
+steps{
+git branch: 'development', credentialsId: '4b5e6804-01f2-4e1b-a5aa-cb7653136ffd', url: 'https://github.com/deexithshetty/maven-web-application.git'
+}
+}
+
+stage('Build'){
+steps{
+sh "mvn clean package"
+}
+}
+
+stage('SonarQube report'){
+steps{
+sh "mvn clean sonar:sonar"
+}
+}
+
+stage('Uploading to Nexus'){
+steps{
+sh "mvn clean deploy"
+}
+}
+
+stage('Deploy to tomcat server'){
+steps{
+sshagent(['c7717f23-2e02-4cf1-8265-c819f3b5ff33']) {
+sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ubuntu@172.31.41.106:/opt/apache-tomcat-9.0.93/webapps/"
+}
+}
+}
+
+} 
+}
