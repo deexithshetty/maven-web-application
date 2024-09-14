@@ -1,4 +1,4 @@
-FROM tomcat:8.5-jdk8
+FROM tomcat:8.0.20-jre8
 
 # Install nano
 RUN apt-get update && apt-get install -y nano
