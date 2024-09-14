@@ -5,7 +5,7 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 2  # Number of pods to run
+  replicas: 1 # Number of pods to run
   selector:
     matchLabels:
       app: myapp
@@ -31,4 +31,4 @@ spec:
     - protocol: TCP
       port: 80       # Service port
       targetPort: 8080  # The port on the container
-  type: LoadBalancer  # Expose externally (use NodePort if not using cloud LB)
+  type: NodePort  # Expose externally (use NodePort if not using cloud LB)
