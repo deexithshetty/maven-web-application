@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: myapp-container
-        image: dockerdeexith/myapp:latest  # Use your image name here
+        image: dockerdeexith/myapp-dev:latest  # Use your image name here
         ports:
         - containerPort: 8080  # Change this if your app listens on a different port
 ---
