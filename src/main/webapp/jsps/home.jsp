@@ -1,37 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>MithunTechnologies- Home Page</title>
-<link href="images/mithunlogo.jpg" rel="icon">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Pipeline Setup Overview</title>
 </head>
 <body>
-<h1 align="center">Welcome to Deexith D shetty(devops) Technologies - GitHub WebHook Demo  .....</h1>
-<h1 align="center"> Welcome to Deexith Software Solutions.......We have a DevOps Master Program demo on Sep 3rd at 8 PM IST for new batch. , This is a weekdays batch - 8 PM to 9.30 AM IST . MSS- Very Good Training center for DevOps with AWS in Maratha Halli and also for Job Assitance Job Support also...Teaching Real Time scnerios and use cases... Some fake guys are giving the fake reviews dont believe those guys..I am requesting everyone. Please give your reviews in FB and Google.</h1>
-<hr>
-<div style="text-align: center;">
-	<span>
-		<img src="images/mithunlogo.jpg" alt="" width="100">
-	</span>
-	<span style="font-weight: bold;">
-		Mithun Software Solutions, 
-		Martha Halli,
-		Bangalore,
-		+91-9980923226,
-		devopstrainingbr@gmail.com
-		<br>
-		<a href="mailto:devopstrainingblr@gmail.com">Mail to Mithun Technologies</a>
-	</span>
-</div>
-<hr>
-	<p> Service : <a href="services/employee/getEmployeeDetails">Get Employee Details </p>
-<hr>
-<hr>
-<p align=center>Mithun Technologies - Consultant, Training, Development Center.</p>
-<p align=center><small>Copyrights 2021 by <a href="http://mithuntechnologies.com/">Mithun Technologies</a> </small></p>
+    <h1 align="center">CI/CD Pipeline for DevOps Tools</h1>
+    
+    <p>This CI/CD pipeline automates the software build, test, security scanning, and deployment process using the following tools:</p>
+    
+    <ul>
+        <li><strong>Jenkins:</strong> Automates building, testing, and deploying applications.</li>
+        <li><strong>SonarQube:</strong> Continuously inspects code for quality and bugs.</li>
+        <li><strong>Nexus:</strong> Stores build artifacts and Docker images.</li>
+        <li><strong>Trivy:</strong> Scans container images for vulnerabilities.</li>
+        <li><strong>Docker:</strong> Builds containerized applications for consistent environments.</li>
+        <li><strong>Kubernetes:</strong> Manages and orchestrates the deployment of containers.</li>
+        <li><strong>Maven:</strong> Handles Java project builds and dependencies.</li>
+    </ul>
+    
+    <h2 align="center">Kubernetes Deployment</h2>
+    <p>The application is deployed in a Kubernetes cluster for scalability and reliability. The pipeline ensures automatic deployment after every successful build and test stage.</p>
 
 </body>
 </html>
