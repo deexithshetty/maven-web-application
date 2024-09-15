@@ -19,6 +19,14 @@ spec:
         image: dockerdeexith/myapp-dev:latest  # Use your image name here
         ports:
         - containerPort: 8080  # Change this if your app listens on a different port
+        volumeMounts:
+        - name: tomcat-config-volume
+          mountPath: /usr/local/tomcat/conf/tomcat-users.xml
+          subPath: tomcat-users.xml
+      volumes:
+      - name: tomcat-config-volume
+        configMap:
+          name: tomcat-config  # Name of your ConfigMap
 ---
 apiVersion: v1
 kind: Service
